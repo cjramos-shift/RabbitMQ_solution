@@ -3,6 +3,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 
 var factory = new ConnectionFactory { HostName = "localhost", UserName = "admin", Password = "admin1" };
+
 using (var connection = await factory.CreateConnectionAsync())
 {
     using (var channel = await connection.CreateChannelAsync())

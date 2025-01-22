@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sender
 {
-    public interface ISend
+    public interface ISendMessage
     {
     }
 }
