@@ -6,7 +6,7 @@ using RabbitMQ.Client;
 const ushort MAX_OUTSTANDING_CONFIRMS = 256;
 
 const int MESSAGE_COUNT = 50_000;
-bool debug = false;
+bool debug = true;
 
 var channelOpts = new CreateChannelOptions(
     publisherConfirmationsEnabled: true,
@@ -20,6 +20,9 @@ var props = new BasicProperties
 };
 
 string hostname = "localhost";
+string userName = "admin";
+string password = "admin1";
+
 if (args.Length > 0)
 {
     if (false == string.IsNullOrWhiteSpace(args[0]))
@@ -34,17 +37,11 @@ await PublishMessagesIndividuallyAsync();
 await PublishMessagesInBatchAsync();
 await HandlePublishConfirmsAsynchronously();
 
-Task<IConnection> CreateConnectionAsync()
-{
-    var factory = new ConnectionFactory { HostName = hostname, UserName = "admin", Password = "admin1" };
-    return factory.CreateConnectionAsync();
-}
-
 async Task PublishMessagesIndividuallyAsync()
 {
     Console.WriteLine($"{DateTime.Now} [INFO] publishing {MESSAGE_COUNT:N0} messages and handling confirms per-message");
 
-    await using IConnection connection = await CreateConnectionAsync();
+    await using IConnection connection = await CriarConexaoAsync();
     await using IChannel channel = await connection.CreateChannelAsync(channelOpts);
 
     // declare a server-named queue
