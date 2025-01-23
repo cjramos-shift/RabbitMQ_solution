@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Adapter\Secondary\Context\" />
-    <Folder Include="Adapter\Secondary\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Settings1.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>

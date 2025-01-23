@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
-using TestPublisher.Core.Entities.DTO;
 
 namespace TestPublisher.Core.Ports
 {
-    public interface IFactory
+    public interface IPublicarMensagensIndividualmente
     {
-        Task<IConnection> CriarConexaoAsync();
+        Task PublicarMensagemIndividualmenteAsync(CreateChannelOptions channelOpts, BasicProperties props);
     }
 }

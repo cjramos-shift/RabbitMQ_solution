@@ -3,30 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestPublisher.Core.Abstracts;
 using TestPublisher.Core.Exceptions;
+using TestPublisher.Core.Ports;
 
 namespace TestPublisher.Core.Entities.DTO
 {
     public sealed class FactoryDTO
     {
-        public string HostName { get; }
-        public string UserName { get; }
-        public string Password { get; }
+        public string HostName { get; private set; }
+        public string UserName { get; private set; }
+        public string Password { get; private set; }
 
-        public FactoryDTO(string hostName, string userName, string password)
+        private readonly IFactoryVo _factoryVo;
+
+        public FactoryDTO(IFactoryVo factoryVo)
         {
-            HostName = hostName ?? throw new InvalidFactorylException(nameof(hostName));
-            UserName = userName ?? throw new InvalidFactorylException(nameof(userName));
-            Password = password ?? throw new InvalidFactorylException(nameof(password));
+            _factoryVo = factoryVo;
 
-            if (string.IsNullOrWhiteSpace(hostName))
-                throw new InvalidFactorylException("Host name cannot be empty", nameof(hostName));
+            HostName = Constantes.HostName;
+            UserName = Constantes.UserName;
+            Password = Constantes.Password;
 
-            if (string.IsNullOrWhiteSpace(userName))
-                throw new InvalidFactorylException("User name cannot be empty", nameof(userName));
+            bool isCredenciaisValidas = _factoryVo.Validate(HostName, UserName, Password);
 
-            if (string.IsNullOrWhiteSpace(password))
-                throw new InvalidFactorylException("Password cannot be empty", nameof(password));
+            if (!isCredenciaisValidas)
+            {
+                throw new InvalidFactorylException("Dados inválidos!");
+            }
         }
     }
 }
